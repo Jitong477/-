@@ -290,13 +290,31 @@ export default function AIRemixGenerated({
           time: new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })
         }]);
       } else {
-        throw new Error("API call returned error status");
+        const errData = await response.json().catch(() => ({}));
+        throw new Error(errData.error || `服务器返回错误状态码: ${response.status}`);
       }
-    } catch (err) {
+    } catch (err: any) {
       console.error("Chat error:", err);
+      
+      // Construct a very detailed help manual so the user immediately knows how to input their keys
+      const errorMsg = err?.message || "连接故障，无法通信";
+      const helpManualText = `⚠️ **智能导师连接遇到问题‌：**
+      
+> "${errorMsg}"
+
+💡 **诊断建议 (Why it happens)**:
+1. **当前运行环境**：此应用目前运行在 **AI Studio 预览容器 (Google Cloud Run)** 下，**它无法直接访问或继承您在 Cloudflare Pages/Workers/DNS 平台中独立配置的环境变量或 Secrets！**
+2. **解决方法**：您需要在当前 AI Studio 的界面中导入/配置它们：
+   - 请点击页面顶栏或左下角的 **齿轮/Settings (设置) 按钮 -> Secrets**
+   - 新建并添加以下三个变量：
+     - \`OPENAI_API_KEY\` = (您的 API 密钥/密钥值，例如 \`sk-...\`)
+     - \`OPENAI_BASE_URL\` = \`https://api.openai-next.com/v1\` (或者是您在 Cloudflare 中搭建/代理的自定义 CNAME 地址)
+     - \`OPENAI_MODEL\` = \`gpt-4\` (或您代理指代的模型名字)
+3. **本地模拟运行**：在您成功配置前，仍可以正常打字发送包含 **【园林】**、**【做饭】**、**【焦虑】** 或 **【职业】** 的交互，体验内置的高提分口语预置库！`;
+
       setChatMessages(prev => [...prev, {
         sender: 'ai',
-        text: "连接遇到了一点波动，别担心！一键配置 `OPENAI_API_KEY` 即可连接真人等效 AI 导师哦！当前你可以打字发送包含 '园林', '做饭', '焦虑', '职业' 的问题，我将立刻为你演示提分逻辑！",
+        text: helpManualText,
         time: new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })
       }]);
     } finally {
@@ -407,6 +425,12 @@ export default function AIRemixGenerated({
           userPractice: userSpeechDraft.trim() || null
         })
       });
+
+      if (!response.ok) {
+        const errData = await response.json().catch(() => ({}));
+        throw new Error(errData.error || `HTTP 错误状态码: ${response.status}`);
+      }
+
       const data = await response.json();
       if (data) {
         setGeneratedRemix({
@@ -417,9 +441,19 @@ export default function AIRemixGenerated({
           aiFeedback: data.aiFeedback || null
         });
       }
-    } catch (err) {
+    } catch (err: any) {
       console.error("AI Speaks model request failed:", err);
-      alert("因为未配置 OPENAI_API_KEY，一键智能模塑已切换为内置的高分口语模板。");
+      alert(`⚠️ 提分中枢模塑请求失败：
+----------------------
+无法连接或执行接口调用：
+${err.message || "网络波动或配置异常"}
+
+💡 诊断提示：
+1. 这是一个运行在 Google Cloud (AI Studio 预览容器) 里的应用，所以无法直接继承您在外部 Cloudflare 平台/账号里设置的环境变量与 Secrets 变量。
+2. 请点击界面顶栏/左下角的 [Settings(设置) -> Secrets] 里，填入您的环境变量以连接您的专属代理：
+   - OPENAI_API_KEY = (您的 API Key，如 sk-...)
+   - OPENAI_BASE_URL = https://api.openai-next.com/v1 (国内常用的接口代理地址)
+   - OPENAI_MODEL = gpt-4 (自定义模型名称)`);
     } finally {
       setIsLoadingAI(false);
     }
@@ -664,7 +698,7 @@ export default function AIRemixGenerated({
           <div className="flex items-center gap-2 text-secondary-container mb-3">
             <Cpu className="w-4 h-4 text-secondary-container" />
             <h3 className="font-mono font-bold text-xs uppercase tracking-wider text-white">
-              一键雅思中枢 (内置 Jitong 智能推荐)
+              一键雅思中枢 (内置 GPT-4 智能推荐)
             </h3>
           </div>
 

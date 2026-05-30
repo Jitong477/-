@@ -13,8 +13,13 @@ async function callOpenAIApi(
 ): Promise<string> {
   const apiKey = process.env.OPENAI_API_KEY;
   if (!apiKey || apiKey === "YOUR_KEY" || apiKey === "") {
-    throw new Error("OPENAI_API_KEY is not configured");
+    throw new Error("OPENAI_API_KEY is not configured or is still default. Please configure this key in the Secrets panel in AI Studio UI.");
   }
+
+  const baseUrl = (process.env.OPENAI_BASE_URL || "https://api.openai-next.com/v1").replace(/\/chat\/completions$/, "");
+  const modelName = process.env.OPENAI_MODEL || "gpt-4";
+
+  console.log(`[Proxy Call] URL: ${baseUrl}/chat/completions, Model: ${modelName}, KeyLength: ${apiKey.length}`);
 
   const payloadMessages: Array<{ role: string; content: string }> = [];
   if (systemInstruction) {
@@ -23,7 +28,7 @@ async function callOpenAIApi(
   payloadMessages.push(...messages);
 
   const requestBody: any = {
-    model: "Jitong",
+    model: modelName,
     messages: payloadMessages,
     temperature: 0.7
   };
@@ -32,18 +37,25 @@ async function callOpenAIApi(
     requestBody.response_format = { type: "json_object" };
   }
 
-  const response = await fetch("https://api.openai-next.com/v1/chat/completions", {
-    method: "POST",
-    headers: {
-      "Content-Type": "application/json",
-      "Authorization": `Bearer ${apiKey}`
-    },
-    body: JSON.stringify(requestBody)
-  });
+  let response;
+  try {
+    response = await fetch(`${baseUrl}/chat/completions`, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+        "Authorization": `Bearer ${apiKey}`
+      },
+      body: JSON.stringify(requestBody)
+    });
+  } catch (netErr: any) {
+    console.error("[Proxy Network Error]", netErr);
+    throw new Error(`网络请求失败 (Failed to fetch): ${netErr.message || netErr}. 请检查您的 OPENAI_BASE_URL: "${baseUrl}" 是否拼写正确或可从服务器端（Google Cloud）解析。`);
+  }
 
   if (!response.ok) {
     const errText = await response.text();
-    throw new Error(`OpenAI proxy API failed: ${response.status} ${response.statusText} - ${errText}`);
+    console.error(`[Proxy Response Error] Status: ${response.status}`, errText);
+    throw new Error(`接口代理请求失败 (Status ${response.status} ${response.statusText}): ${errText}`);
   }
 
   const data: any = await response.json();
@@ -216,6 +228,11 @@ Goal:
           });
         }
       });
+
+      // Strict enforcement: ensure the conversation starts with a user message for API compliance
+      while (contents.length > 0 && contents[0].role !== "user") {
+        contents.shift();
+      }
 
       const reply = await callOpenAIApi(contents, systemIns, false);
       res.json({ reply });

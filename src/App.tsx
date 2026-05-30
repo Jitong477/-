@@ -11,15 +11,14 @@ import { VideoItem, SavedItem, VocabItem, UserStats } from './types';
 import VerticalVideoFeed from './components/VerticalVideoFeed';
 import AICorpus from './components/AICorpus';
 import AIRemixGenerated from './components/AIRemixGenerated';
-import MyProfile from './components/MyProfile';
 
 export default function App() {
   const [videos, setVideos] = useState<VideoItem[]>(INITIAL_VIDEOS);
   const [activeVideoIndex, setActiveVideoIndex] = useState(0);
   const [userStats, setUserStats] = useState<UserStats>(INITIAL_USER_STATS);
   
-  // Tab control states: 'HOME' | 'SAVED' | 'CORPUS' | 'REMIX'
-  const [activeTab, setActiveTab] = useState<'HOME' | 'SAVED' | 'CORPUS' | 'REMIX'>('HOME');
+  // Tab control states: 'HOME' | 'CORPUS' | 'REMIX'
+  const [activeTab, setActiveTab] = useState<'HOME' | 'CORPUS' | 'REMIX'>('HOME');
   
   // Custom states for Comments
   const [commentsMap, setCommentsMap] = useState<Record<string, Array<{ user: string, text: string, time: string }>>>({
@@ -283,14 +282,6 @@ export default function App() {
             isSaved={isCurrentVideoSaved}
           />
         )}
-
-        {activeTab === 'SAVED' && (
-          <MyProfile 
-            stats={userStats}
-            savedItems={savedItems}
-            onRemoveSavedItem={handleRemoveSavedItem}
-          />
-        )}
       </main>
 
       {/* 
@@ -336,19 +327,6 @@ export default function App() {
         >
           <Zap className="w-6 h-6 stroke-[2.2] animate-pulse text-indigo-400" />
           <span className="font-mono text-[10px] mt-1 font-bold">AI提分重塑</span>
-        </button>
-
-        {/* Tab 4: 随身备考本 */}
-        <button 
-          onClick={() => setActiveTab('SAVED')}
-          className={`flex flex-col items-center justify-center transition-all duration-300 cursor-pointer ${
-            activeTab === 'SAVED' 
-              ? 'text-primary-container drop-shadow-[0_0_8px_rgba(188,19,254,0.65)] scale-105' 
-              : 'text-on-surface-variant opacity-60 hover:opacity-100 hover:text-primary'
-          }`}
-        >
-          <Bookmark className="w-6 h-6 stroke-[2.2]" />
-          <span className="font-mono text-[10px] mt-1 font-bold">备考本</span>
         </button>
 
       </nav>
