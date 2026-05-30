@@ -18,8 +18,8 @@ export default function App() {
   const [activeVideoIndex, setActiveVideoIndex] = useState(0);
   const [userStats, setUserStats] = useState<UserStats>(INITIAL_USER_STATS);
   
-  // Tab control states: 'HOME' | 'SAVED' | 'CORPUS' | 'REMIX' | 'PROFILE'
-  const [activeTab, setActiveTab] = useState<'HOME' | 'SAVED' | 'CORPUS' | 'REMIX' | 'PROFILE'>('HOME');
+  // Tab control states: 'HOME' | 'SAVED' | 'CORPUS' | 'REMIX'
+  const [activeTab, setActiveTab] = useState<'HOME' | 'SAVED' | 'CORPUS' | 'REMIX'>('HOME');
   
   // Custom states for Comments
   const [commentsMap, setCommentsMap] = useState<Record<string, Array<{ user: string, text: string, time: string }>>>({
@@ -43,28 +43,30 @@ export default function App() {
     {
       id: "sav-1",
       videoItemId: "v3",
-      videoTitle: "现代都市中传统建筑之魂",
+      videoTitle: "红人演讲：在平行世界里，活出你想要的多元精彩",
       category: "Culture",
       savedAt: "2026-05-28 14:32",
-      title: "古建保护口语进阶包",
+      title: "多元生命轨迹思辩",
       vocabAdded: [
-        { word: "Tangible heritage", pinyin: "yǒu xíng yí chǎn", translation: "有形文化遗产" },
-        { word: "Ancestral legacy", pinyin: "zǔ bèi yí chǎn", translation: "祖辈留下的遗产" }
+        { word: "Diverse life trajectories", translation: "多样化的人生轨迹" },
+        { word: "Sovereignty of self-determination", translation: "自我决定权" }
       ],
-      template: "Amidst the rapidly expanding concrete jungle of contemporary cities, preserving traditional temples operates as a tangible heritage that connects us with our ancestral legacy."
+      template: "Personally, sovereignty of self-determination is paramount when planning our future. Young people should dare to explore diverse life trajectories.",
+      folder: "PART 3"
     },
     {
       id: "sav-2",
-      videoItemId: "v2",
-      videoTitle: "人工智能驱动的社会伦理之思",
-      category: "Tech",
+      videoItemId: "v1",
+      videoTitle: "古典留园与拙政园的满分国潮画境",
+      category: "Culture",
       savedAt: "2026-05-29 09:12",
-      title: "AI伦理与人类问责机制",
+      title: "古典美学与宁静避风港",
       vocabAdded: [
-        { word: "Algorithmic bias", pinyin: "suàn fǎ piān jiàn", translation: "算法偏见" },
-        { word: "Privacy parameters", pinyin: "yǐn sī cān shù", translation: "隐私参数" }
+        { word: "Horticultural masterpiece", translation: "园艺杰作" },
+        { word: "Labyrinthine pathways", translation: "曲径通幽的路径" }
       ],
-      template: "While artificial intelligence offers massive breakthroughs in society, we must outline robust privacy parameters and solve algorithmic bias to support human accountability."
+      template: "In my personal perspective, visiting a classical Chinese garden represents the ultimate escape from the concrete jungle, offering rich horticultural masterpieces.",
+      folder: "PART 2"
     }
   ]);
 
@@ -104,7 +106,8 @@ export default function App() {
             savedAt: new Date().toISOString().replace('T', ' ').slice(0, 16),
             vocabAdded: v.keyVocab,
             template: v.speakingTemplate,
-            title: `${v.category} Flash Note`
+            title: `${v.category} Flash Note`,
+            folder: "PART 2"
           };
           setSavedItems(curr => [newItem, ...curr]);
           setUserStats(st => ({
@@ -153,7 +156,7 @@ export default function App() {
   };
 
   // Saving compiled custom speaking remixes
-  const handleSaveToFolder = (remix: { title: string; template: string; vocab: VocabItem[] }) => {
+  const handleSaveToFolder = (remix: { title: string; template: string; vocab: VocabItem[]; folder?: 'PART 1' | 'PART 2' | 'PART 3' }) => {
     const curVid = videos[activeVideoIndex];
     const savedItem: SavedItem = {
       id: `sav-${Date.now()}`,
@@ -163,7 +166,8 @@ export default function App() {
       savedAt: new Date().toISOString().replace('T', ' ').slice(0, 16),
       vocabAdded: remix.vocab,
       template: remix.template,
-      title: "AI智能自定义口语重叠卡"
+      title: "AI智能自定义口语重叠卡",
+      folder: remix.folder || 'PART 2'
     };
 
     setSavedItems(prev => [savedItem, ...prev]);
@@ -175,8 +179,50 @@ export default function App() {
       }
       return v;
     }));
+  };
 
-    alert("口语模板已成功存入您的个人备考文件夹！");
+  // One-click AI interactive content summary saving handler
+  const handleSaveInteractiveSummary = (data: {
+    videoItemId: string;
+    videoTitle: string;
+    category: string;
+    vocab: VocabItem[];
+    customNotes: string;
+    englishDescription: string;
+    folder?: 'PART 1' | 'PART 2' | 'PART 3';
+  }) => {
+    const chosenFolder = data.folder || 'PART 1';
+
+    const savedItem: SavedItem = {
+      id: `sav-${Date.now()}`,
+      videoItemId: data.videoItemId,
+      videoTitle: `${data.videoTitle}`,
+      category: data.category,
+      savedAt: new Date().toISOString().replace('T', ' ').slice(0, 16),
+      vocabAdded: data.vocab,
+      template: data.customNotes.trim()
+        ? `【学到心得】：${data.customNotes.trim()}\n\n【AI英文场景描述】：${data.englishDescription}`
+        : `【AI英文场景描述】：${data.englishDescription}`,
+      title: `AI备考归档（存入 ${chosenFolder}）`,
+      folder: chosenFolder
+    };
+
+    setSavedItems(prev => [savedItem, ...prev]);
+
+    // Update video bookmark status
+    setVideos(prev => prev.map(v => {
+      if (v.id === data.videoItemId) {
+        return { ...v, hasBookmarked: true };
+      }
+      return v;
+    }));
+
+    // Update user stats
+    setUserStats(st => ({
+      ...st,
+      completedTasks: st.completedTasks + 1,
+      totalRemixes: st.totalRemixes + 1
+    }));
   };
 
   // Remove saved portfolio template
@@ -205,7 +251,7 @@ export default function App() {
       <div className="absolute top-0 inset-x-0 h-[1px] bg-gradient-to-r from-transparent via-primary-container to-transparent opacity-30 pointer-events-none z-50" />
 
       {/* Main Study Screen Component Router */}
-      <main className="flex-1 w-full max-w-7xl mx-auto pb-28 md:pb-6 relative overflow-hidden">
+      <main className={`flex-1 w-full relative overflow-hidden ${activeTab === 'HOME' ? 'max-w-none' : 'max-w-7xl mx-auto pb-28 md:pb-6 px-4 md:px-0'}`}>
         {activeTab === 'HOME' && (
           <VerticalVideoFeed 
             videos={videos}
@@ -216,6 +262,7 @@ export default function App() {
             onTriggerRemix={handleTriggerRemix}
             onAddComment={handleAddComment}
             commentsMap={commentsMap}
+            onSaveInteractiveSummary={handleSaveInteractiveSummary}
           />
         )}
 
@@ -230,20 +277,14 @@ export default function App() {
         {activeTab === 'REMIX' && (
           <AIRemixGenerated 
             currentVideo={videos[activeVideoIndex]}
+            allVideos={videos}
+            onVideoChange={handleVideoChange}
             onSaveToFolder={handleSaveToFolder}
             isSaved={isCurrentVideoSaved}
           />
         )}
 
         {activeTab === 'SAVED' && (
-          <MyProfile 
-            stats={userStats}
-            savedItems={savedItems}
-            onRemoveSavedItem={handleRemoveSavedItem}
-          />
-        )}
-
-        {activeTab === 'PROFILE' && (
           <MyProfile 
             stats={userStats}
             savedItems={savedItems}
@@ -271,20 +312,7 @@ export default function App() {
           <span className="font-mono text-[10px] mt-1 font-bold">首页</span>
         </button>
 
-        {/* Tab 2: 收藏夹 study folders */}
-        <button 
-          onClick={() => setActiveTab('SAVED')}
-          className={`flex flex-col items-center justify-center transition-all duration-300 cursor-pointer ${
-            activeTab === 'SAVED' 
-              ? 'text-primary-container drop-shadow-[0_0_8px_rgba(188,19,254,0.65)] scale-105' 
-              : 'text-on-surface-variant opacity-60 hover:opacity-100 hover:text-primary'
-          }`}
-        >
-          <Bookmark className="w-6 h-6 stroke-[2.2]" />
-          <span className="font-mono text-[10px] mt-1 font-bold">收藏夹</span>
-        </button>
-
-        {/* Tab 3: AI语料库 dynamic grids */}
+        {/* Tab 2: AI语料库 dynamic grids */}
         <button 
           onClick={() => setActiveTab('CORPUS')}
           className={`flex flex-col items-center justify-center transition-all duration-300 cursor-pointer ${
@@ -297,17 +325,30 @@ export default function App() {
           <span className="font-mono text-[10px] mt-1 font-bold">AI语料库</span>
         </button>
 
-        {/* Tab 4: 我的 (User Space) */}
+        {/* Tab 3: AI提分重塑 Dynamic Cockpit */}
         <button 
-          onClick={() => setActiveTab('PROFILE')}
+          onClick={() => setActiveTab('REMIX')}
           className={`flex flex-col items-center justify-center transition-all duration-300 cursor-pointer ${
-            activeTab === 'PROFILE' 
+            activeTab === 'REMIX' 
               ? 'text-primary-container drop-shadow-[0_0_8px_rgba(188,19,254,0.65)] scale-105' 
               : 'text-on-surface-variant opacity-60 hover:opacity-100 hover:text-primary'
           }`}
         >
-          <User className="w-6 h-6 stroke-[2.2]" />
-          <span className="font-mono text-[10px] mt-1 font-bold">我的</span>
+          <Zap className="w-6 h-6 stroke-[2.2] animate-pulse text-indigo-400" />
+          <span className="font-mono text-[10px] mt-1 font-bold">AI提分重塑</span>
+        </button>
+
+        {/* Tab 4: 随身备考本 */}
+        <button 
+          onClick={() => setActiveTab('SAVED')}
+          className={`flex flex-col items-center justify-center transition-all duration-300 cursor-pointer ${
+            activeTab === 'SAVED' 
+              ? 'text-primary-container drop-shadow-[0_0_8px_rgba(188,19,254,0.65)] scale-105' 
+              : 'text-on-surface-variant opacity-60 hover:opacity-100 hover:text-primary'
+          }`}
+        >
+          <Bookmark className="w-6 h-6 stroke-[2.2]" />
+          <span className="font-mono text-[10px] mt-1 font-bold">备考本</span>
         </button>
 
       </nav>

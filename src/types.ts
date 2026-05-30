@@ -1,6 +1,6 @@
 export interface VocabItem {
   word: string;
-  pinyin: string;
+  pinyin?: string;
   translation: string;
   audioText?: string;
   definition?: string;
@@ -15,6 +15,7 @@ export interface VideoItem {
   pills: string[];
   bandScore: string;
   bgImage: string;
+  videoUrl?: string;
   likes: number;
   comments: number;
   bookmarks: number;
@@ -51,4 +52,5 @@ export interface SavedItem {
   vocabAdded: VocabItem[];
   template: string;
   title: string;
+  folder?: 'PART 1' | 'PART 2' | 'PART 3';
 }
