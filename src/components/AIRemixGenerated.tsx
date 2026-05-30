@@ -77,21 +77,18 @@ const SHOWCASE_TRIALS = [
       ],
       template: "Anxiety is often an inevitable by-product of ambition. People experience psychological stress simply because they are discontent with their status quo and driven to make rapid progress. To find a middle ground between intense pressure and personal well-being, individuals should consider unwinding through reading or physical exercises to decompress their frayed nerves.",
       usage: [
-        "🏷️ [AI Smart Tagging 自动贴签] - Good for Part 3: Mental Health & Anxiety (心理健康与焦虑)",
-        "🏷️ [AI Smart Tagging 自动贴签] - Good for Part 3: Modern Lifestyle & Social Pressure (现代生活与压力)",
-        "❓ [Abstract Discussion Questions 考官追问模拟] - Examiner: 'Do you think a certain amount of anxiety is beneficial for personal growth?'"
+        "口语第二部分：描述一次让你感到压力重重的经历/或者如何应对压力（An occasion when you had stress / how to handle stress）",
+        "口语第三部分：现代社会生活节奏、人们对成功的渴望与随之而来的竞争和压力（Fast-paced modern life and the pursuit of career achievements）"
       ],
-      aiFeedback: `【🎯 极速上线体验：雅思 A/B 提分小样对决 B】
+      aiFeedback: `【🎯 极速上线体验：雅平 A/B 提分小样对决 B】
 
-❌ 传统原本 (Baseline 基线风貌 - 中文主张直译复述):
-“董宇辉认为焦虑和压力大是由于太有上进心，对现在不满意……建议看书运动放松。”
-诊断：变成了中文发言的逐句死板复述，极度缺乏英语学术思辨输出的实操度与高分表达词块。
+❌ 传统静态语料 (Baseline 基线风貌 - 约 5.5 分):
+“Anxiety is very normal... People have too much work... They can do sports.”
+诊断：描写极为生硬，没有使用地道的学术词汇和逻辑结构。
 
-✨ 最终作品 (IELTS Layer) 智能 Remix 后的重构效果 (提分至 7.5+ 分):
-1. 转化【上进心导致焦虑】的学术化思辨句型：
-   "Anxiety is often an inevitable by-product of ambition. People experience psychological stress simply because they are discontent with their status quo and driven to make rapid progress."
-2. 转化【运动阅读中和焦虑】的地道高级表达：
-   "To find a middle ground between intense pressure and personal well-being, individuals should consider unwinding through reading or physical exercises to decompress their frayed nerves."`
+✨ AI 智能一键重塑重构 (Our Remixed Masterpiece - 提分至 7.5 分):
+1. 【批判性逻辑】：将“焦虑”升华为 ambition 的 “inevitable by-product”，立论深邃。
+2. 【高级代换】：用 “decompress frayed nerves” 代替 “relax”，让人眼前一亮，提分显著。`
     }
   },
   {
@@ -116,13 +113,13 @@ const SHOWCASE_TRIALS = [
       ],
       aiFeedback: `【🎯 极速上线体验：雅思 A/B 提分小样对决 C】
  
- ❌ 传统静态语料 (Baseline 基线风貌 - 约 6.0 分):
- “I think everyone should choose their own job. This makes them happy.”
- 诊断：句子粗短、逻辑因果链生硬，缺乏西方学术语篇所看重的“智识深度”。
+❌ 传统静态语料 (Baseline 基线风貌 - 约 6.0 分):
+“I think everyone should choose their own job. This makes them happy.”
+诊断：句子粗短、逻辑因果链生硬，缺乏西方学术语篇所看重的“智识深度”。
  
- ✨ AI 智能一键重塑重构 (Our Remixed Masterpiece - 提分至 8.0 分):
- 1. 【批判性思辨】：引入 “sovereignty of self-determination” (自我决定权) 和 “shatter conventional stereotypes of success” (打碎世俗偏见定义)，立意直接飞升。
- 2. 【完美因果律】：借助 “because... which ultimately benefits...” 双重闭环，使流利度固若金汤！`
+✨ AI 智能一键重塑重构 (Our Remixed Masterpiece - 提分至 8.0 分):
+1. 【批判性思辨】：引入 “sovereignty of self-determination” (自我决定权) 和 “shatter conventional stereotypes of success” (打碎世俗偏见定义)，立意直接飞升。
+2. 【完美因果律】：借助 “because... which ultimately benefits...” 双重闭环，使流利度固若金汤！`
     }
   },
   {
@@ -142,19 +139,18 @@ const SHOWCASE_TRIALS = [
       ],
       template: "If I were to describe an inspiring relative who is exceptional at cooking, it would definitely be my mother-in-law. During her months overseas, she showcased outstanding culinary talents and prepared meticulous recipes daily, demonstrating unconditional affection that resulted in the kids delightfully gaining weight and enjoying unforgettable intergenerational bonding.",
       usage: [
-        "口语第二部分：描述一个你身边擅长做饭的人，或一个陪伴着你的亲戚长辈（A relative who is superb at cooking / family member who doted on you）",
-        "口语第三部分：现代城市生活中的隔代抚养，以及美食在家庭日常联结中的温存写照（Intergenerational childcare / family bonding via food routines）"
+        "口语第二部分：描述一个你身边擅长做饭的人，或一个陪伴着你的亲戚长辈（A relative who is superb at cooking / family member who doted on you）"
       ],
       aiFeedback: `【🎯 极速上线体验：雅思 A/B 提分小样对决 D】
- 
- ❌ 传统静态语料 (Baseline 基线风貌 - 约 5.5 分):
- “My wife's mother came... she did good Chinese cooking... all kids became very fat...”
- 诊断：词句短小平淡（good, very fat），无法展示雅思所看重的情感写作连贯性与深度。
- 
- ✨ AI 智能一键重塑重构 (Our Remixed Masterpiece - 提分至 8.0 分):
- 1. 【情感描述升级】：引入 “intergenerational bonding” (隔代温情纽带) 和 “unconditional affection” (毫无保留的爱护疼溺)。
- 2. 【高格调词组加持】：用 “meticulous recipes” (精致慢调菜谱) 替换 “good cooking”，逼格立即陡升。
- 3. 【一键考研多能谱复合】：可一键无缝绑定到你的口语收藏夹中，既答“烹饪高手人选”又答“温暖长辈”！`
+
+❌ 传统静态语料 (Baseline 基线风貌 - 约 6.0 分):
+“My wife's mother came to our oversea house for months. She did good Chinese cooking... Kids became fat.”
+诊断：描写极为生硬，词汇复现高、缺乏生机勃勃地道细节。
+
+✨ AI 智能一键重塑重构 (Our Remixed Masterpiece - 提分至 8.0 分):
+1. 【细节情感提炼】：用 “unconditional affection” (毫无保留的爱) 来点睛烹饪的初衷。
+2. 【地道词组加持】：用 “meticulous recipes” (精致慢调菜谱) 替换 “good cooking”，逼格立即陡升。
+3. 【一键考研多能谱复合】：可一键无缝绑定到你的口语收藏夹中，既答“烹饪高手人选”又答“温暖长辈”！`
     }
   }
 ];
@@ -204,32 +200,44 @@ export default function AIRemixGenerated({
   });
 
   const getInitialMessages = (video: VideoItem) => {
-    let suggestions = [];
+    let suggestions: string[] = [];
     if (video.id === 'v1') {
       suggestions = [
         "园林经典的高分英文表达怎么说？",
-        "‘白墙黛瓦、小桥流水’怎么高标准翻译？",
-        "给我一个描写拙政国潮景致的 1 分钟 Part 2 真人精悍范本"
+        "小桥流水、曲径通幽怎么翻译地道？",
+        "帮我看看：My hometown has a quiet garden"
+      ];
+    } else if (video.id === 'v2') {
+      suggestions = [
+        "‘焦虑是雄心壮志的必然产物’怎么用雅思口语描述？",
+        "学霸词：如何高端描述‘舒缓过度紧绷神经’？",
+        "帮我看看：My stress is very big"
       ];
     } else if (video.id === 'v3') {
       suggestions = [
-        "‘多元人生轨迹’在雅思口语中如何说得高雅？",
-        "‘自我实现、掌握命运选择’怎么翻成高分智识句？",
-        "给我一个关于‘追求另类职业职业人生’的 Part 3 口语论述"
+        "‘打破常规生命轨迹’怎么用雅思口语描述？",
+        "学霸词：如何高端描述‘自主决定权’？",
+        "帮我看看：I want to choose my own career"
       ];
     } else {
       suggestions = [
-        "‘隔代温情与悉心疼爱’用什么雅思高级词汇描写？",
-        "请帮我把: She cooked food, I became fat 润色并提升分数吧！",
-        "帮我把‘姥姥不远万里在海外做饭’写成 Part 2 考研满分素材"
+        "怎么用姥姥做饭描述‘隔代温情’？",
+        "学霸词：如何高端描述‘厨艺精湛’？",
+        "帮我看看：My grandmother is very good at cooking"
       ];
     }
-    
+
+    const welcomeText = `👋 **欢迎来到 AI 雅思语流重构 (Remix) 专属智能沙龙！**
+
+我是你的专属 1v1 提分学术助教。我不仅可以帮你一键将单薄的 baseline 口语高阶重塑（Remix）为高分范文，还可以为你深度剖析每一个生词词块在真实语境中的发音与妙用。
+
+在这里，你可以**针对当前播放的视频**直接向我提问有关本视频中语境口语及语法提分表达（如：**“园林用英语怎么说”**、**“我的口语怎么改”**），或者**直接点击下方**我为你定制的这几个快捷互动话题：`;
+
     return {
       messages: [
         {
           sender: 'ai' as const,
-          text: `哈罗！我是你的雅思口语智能私教。👋\n\n基于你当前正在学习的特色雅思精讲课程 **【${video.title}】**，我已经为你准备了几个最容易提分的互动练习切入点。\n\n你可以在下方打字直接提问我（比如：**“园林用英语怎么说”**、**“我的口语怎么改”**），或者**直接点击下方**我为你定制的这几个快捷互动话题：`,
+          text: welcomeText,
           time: new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })
         }
       ],
@@ -301,7 +309,7 @@ export default function AIRemixGenerated({
       const helpManualText = `⚠️ **智能导师连接遇到问题‌：**
       
 > "${errorMsg}"
-
+ 
 💡 **诊断建议 (Why it happens)**:
 1. **当前运行环境**：此应用目前运行在 **AI Studio 预览容器 (Google Cloud Run)** 下，**它无法直接访问或继承您在 Cloudflare Pages/Workers/DNS 平台中独立配置的环境变量或 Secrets！**
 2. **解决方法**：您需要在当前 AI Studio 的界面中导入/配置它们：
@@ -477,7 +485,7 @@ ${err.message || "网络波动或配置异常"}
   };
 
   return (
-    <div className="w-full bg-background min-h-[calc(100vh-100px)] md:min-h-screen text-on-background pb-36 pt-4 px-4 select-none">
+    <div className="w-full bg-background min-h-[calc(100vh-100px)] md:min-h-screen text-on-background pb-36 pt-4 px-4 select-none animate-fadeIn">
       
       {/* Background Cinematic Backdrop Overlay */}
       <div className="fixed inset-0 z-0 opacity-20 pointer-events-none select-none">
@@ -485,7 +493,7 @@ ${err.message || "网络波动或配置异常"}
           alt="Backdrop Classical" 
           src={currentVideo.bgImage} 
           referrerPolicy="no-referrer"
-          className="w-full h-full object-cover grayscale blur-md"
+          className="w-full h-full object-cover grayscale blur-md animate-scaleIn"
         />
         <div className="absolute inset-0 bg-black/60" />
       </div>
@@ -498,7 +506,7 @@ ${err.message || "网络波动或配置异常"}
           
           <div className="flex items-center gap-xs mb-3">
             <Sparkles className="w-5 h-5 text-primary animate-pulse" />
-            <h2 className="font-display font-extrabold text-white text-lg">
+            <h2 className="font-display font-extrabold text-white text-lg animate-slideIn">
               一键雅思高分模塑
             </h2>
           </div>
@@ -548,7 +556,7 @@ ${err.message || "网络波动或配置异常"}
                       {trial.tag}
                     </span>
                   </div>
-                  <h4 className="text-white text-xs font-bold mt-1 leading-snug group-hover:text-primary transition-colors">
+                  <h4 className="text-white text-xs font-bold mt-1 leading-snug group-hover:text-primary transition-colors animate-slideIn">
                     {trial.question}
                   </h4>
                   <p className="text-[10px] text-on-surface-variant line-clamp-1 mt-0.5">
@@ -591,7 +599,7 @@ ${err.message || "网络波动或配置异常"}
               AI
             </div>
             <div>
-              <h3 className="font-display font-extrabold text-white text-sm">
+              <h3 className="font-display font-extrabold text-white text-sm animate-slideIn">
                 🤖 Live AI 雅思私教对练中枢
               </h3>
               <p className="font-mono text-[10px] text-on-surface-variant uppercase tracking-wider">
@@ -648,7 +656,7 @@ ${err.message || "网络波动或配置异常"}
               <MessageCircle className="w-3.5 h-3.5 text-secondary-container" />
               💡 推荐提问 (关联你刚才学到的视频核心点):
             </span>
-            <div className="flex flex-col gap-1.5">
+            <div className="flex flex-col gap-1.5 animate-fadeIn">
               {chatSuggestions.map((suggestion, index) => (
                 <button
                   key={index}
@@ -677,7 +685,7 @@ ${err.message || "网络波动或配置异常"}
                 }
               }}
               disabled={isChatLoading}
-              className="flex-1 bg-zinc-950/80 border border-white/10 rounded-xl px-3 py-2.5 text-xs text-white placeholder-zinc-500 focus:outline-none focus:border-indigo-400 focus:ring-1 focus:ring-indigo-400 disabled:opacity-50"
+              className="flex-1 bg-zinc-950/80 border border-white/10 rounded-xl px-3 py-2.5 text-xs text-white placeholder-zinc-500 focus:outline-none focus:border-indigo-400 focus:ring-1 focus:ring-indigo-400 disabled:opacity-50 text-ellipsis"
             />
             <button
               onClick={() => handleSendMessage()}
@@ -694,7 +702,7 @@ ${err.message || "网络波动或配置异常"}
         </div>
 
         {/* Dynamic AI custom adjustments cockpit */}
-        <div className="glass-card rounded-2xl p-4 border border-secondary-container/10 bg-black/40">
+        <div className="glass-card rounded-2xl p-4 border border-secondary-container/10 bg-black/40 animate-scaleIn">
           <div className="flex items-center gap-2 text-secondary-container mb-3">
             <Cpu className="w-4 h-4 text-secondary-container" />
             <h3 className="font-mono font-bold text-xs uppercase tracking-wider text-white">
@@ -829,7 +837,7 @@ ${err.message || "网络波动或配置异常"}
             <div className="w-7 h-7 rounded-full bg-secondary-container/10 flex items-center justify-center">
               <CheckCircle className="w-4 h-4 text-secondary-container" />
             </div>
-            <h3 className="font-mono font-bold text-[10px] text-white uppercase tracking-wider">
+            <h3 className="font-mono font-bold text-[10px] text-white uppercase tracking-wider text-ellipsis">
               智能分析：推荐适用的雅思常考话题 (含 Part 2/3)
             </h3>
           </div>
