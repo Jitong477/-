@@ -1,0 +1,6 @@
+{
+  "name": "IELTS Layer",
+  "description": "An AI-powered immersive short-video language platform for IELTS speaking training, vocabulary extraction, and custom templates.",
+  "requestFramePermissions": ["microphone"],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}
