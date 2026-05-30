@@ -69,6 +69,27 @@ async function startServer() {
 
   app.use(express.json());
 
+  // Safe API Diagnostic Endpoint
+  app.get("/api/diagnose", (req, res) => {
+    const keys = Object.keys(process.env);
+    const hasApiKey = !!process.env.OPENAI_API_KEY && process.env.OPENAI_API_KEY !== "YOUR_KEY" && process.env.OPENAI_API_KEY !== "";
+    const apiKeyVal = process.env.OPENAI_API_KEY || "";
+    const cleanApiKey = apiKeyVal.trim();
+    
+    // Ensure we do not leak the actual API key, but provide enough debugging metadata
+    res.json({
+      status: "ready",
+      loadedKeys: keys.filter(k => k.includes("OPENAI") || k.includes("API") || k.includes("URL") || k.includes("KEY") || k.includes("PORT")),
+      hasApiKey,
+      isDefaultKey: cleanApiKey === "YOUR_KEY",
+      keyLength: cleanApiKey.length,
+      keyPrefix: cleanApiKey ? cleanApiKey.substring(0, Math.min(5, cleanApiKey.length)) + "..." : "none",
+      keySuffix: cleanApiKey ? "..." + cleanApiKey.substring(Math.max(0, cleanApiKey.length - 4)) : "none",
+      baseUrl: process.env.OPENAI_BASE_URL || "https://api.openai-next.com/v1 (default)",
+      model: process.env.OPENAI_MODEL || "gpt-4 (default)"
+    });
+  });
+
   // API Route: AI IELTS Speaking Script Remix
   app.post("/api/remix", async (req, res) => {
     try {
