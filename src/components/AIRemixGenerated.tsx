@@ -296,7 +296,7 @@ export default function AIRemixGenerated({
       console.error("Chat error:", err);
       setChatMessages(prev => [...prev, {
         sender: 'ai',
-        text: "连接遇到了一点波动，别担心！一键配置 `GEMINI_API_KEY` 即可连接真人等效 AI 导师哦！当前你可以打字发送包含 '园林', '做饭', '焦虑', '职业' 的问题，我将立刻为你演示提分逻辑！",
+        text: "连接遇到了一点波动，别担心！一键配置 `OPENAI_API_KEY` 即可连接真人等效 AI 导师哦！当前你可以打字发送包含 '园林', '做饭', '焦虑', '职业' 的问题，我将立刻为你演示提分逻辑！",
         time: new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })
       }]);
     } finally {
@@ -393,53 +393,33 @@ export default function AIRemixGenerated({
     e.preventDefault();
     setIsLoadingAI(true);
     try {
-      const response = await fetch("https://api.openai-next.com/v1/chat/completions", {
+      const response = await fetch("/api/remix", {
         method: "POST",
         headers: {
-          'Content-Type': 'application/json',
-          'Authorization': `Bearer ${import.meta.env.VITE_AI_API_KEY || process.env.VITE_AI_API_KEY}`
+          'Content-Type': 'application/json'
         },
         body: JSON.stringify({
-          model: "gpt-4o",
-          response_format: { type: "json_object" },
-          messages: [
-            { 
-              role: "system", 
-              content: "你是一个专业的雅思口语考官。请将用户的零碎表达升级为高分范文。请务必严格返回一个标准 JSON 对象，不要用 markdown 的 block 包裹，结构必须包含：{ \"band\": \"分数\", \"vocabulary\": [{\"word\":\"单词\", \"translation\":\"翻译\"}], \"template\": \"高分范文文本\", \"usage\": [\"适用场景描述\"], \"aiFeedback\": \"A/B提分诊断报告\" }" 
-            },
-            { 
-              role: "user", 
-              content: `视频主题: ${currentVideo.title}, 分类: ${currentVideo.category}, 目标: Band ${targetScore}, 学生草稿: ${userSpeechDraft.trim() || currentVideo.englishTranscript}` 
-            }
-          ]
+          title: currentVideo.title,
+          category: currentVideo.category,
+          originalTranscript: currentVideo.englishTranscript,
+          keywords: currentVideo.keyVocab,
+          targetBand: targetScore,
+          userPractice: userSpeechDraft.trim() || null
         })
       });
-
-      if (response.ok) {
-        const rawData = await response.json();
-        const textContent = rawData.choices?.[0]?.message?.content || "{}";
-        const data = JSON.parse(textContent);
-        
+      const data = await response.json();
+      if (data) {
         setGeneratedRemix({
           band: data.band || targetScore,
           vocabulary: data.vocabulary || currentVideo.keyVocab,
           template: data.template || currentVideo.speakingTemplate,
           usage: data.usage || currentVideo.usage,
-          aiFeedback: data.aiFeedback || "智能模塑成功！"
+          aiFeedback: data.aiFeedback || null
         });
-      } else {
-        throw new Error("中转站请求失败");
       }
     } catch (err) {
       console.error("AI Speaks model request failed:", err);
-      alert("联网请求遇到一点小波动，已为你激活本地高分内置模板进行演示。");
-      setGeneratedRemix({
-        band: currentVideo.bandScore.replace("BAND ", "").replace("雅思 ", "").replace("分", "").trim(),
-        vocabulary: currentVideo.keyVocab,
-        template: currentVideo.speakingTemplate,
-        usage: currentVideo.usage,
-        aiFeedback: "【本地小样】当前已为你无缝切换至本地基线高分模板。"
-      });
+      alert("因为未配置 OPENAI_API_KEY，一键智能模塑已切换为内置的高分口语模板。");
     } finally {
       setIsLoadingAI(false);
     }
@@ -684,7 +664,7 @@ export default function AIRemixGenerated({
           <div className="flex items-center gap-2 text-secondary-container mb-3">
             <Cpu className="w-4 h-4 text-secondary-container" />
             <h3 className="font-mono font-bold text-xs uppercase tracking-wider text-white">
-              一键雅思中枢 (内置 Gemini 智能推荐)
+              一键雅思中枢 (内置 Jitong 智能推荐)
             </h3>
           </div>
 
