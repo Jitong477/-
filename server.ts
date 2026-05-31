@@ -6,17 +6,27 @@ import OpenAI from "openai";
 
 dotenv.config();
 
+// ==================== 🛠️ 智能诊断中枢 API 参数直连配置区 ====================
+// 如果您不想使用 Secrets 环境变量，可以在下方直接将变量替换为您的真实秘钥参数。
+// 这样在 AI Studio 的预览容器中直接修改该文件，系统就会实时载入并生效！
+const CONFIG = {
+  OPENAI_API_KEY: process.env.OPENAI_API_KEY || "YOUR_OPENAI_API_KEY_HERE", // 请在这里填入您的 API 密钥，例如 "sk-xxx"
+  OPENAI_BASE_URL: process.env.OPENAI_BASE_URL || "https://api.openai-next.com/v1", // 这里写您的 Cloudflare 代理网关地址
+  OPENAI_MODEL: process.env.OPENAI_MODEL || "gpt-4" // 您调用的核心大语言模型
+};
+// =========================================================================
+
 let openaiClient: OpenAI | null = null;
 
 function getOpenAIClient() {
   if (!openaiClient) {
-    const apiKey = process.env.OPENAI_API_KEY;
-    if (!apiKey) {
+    const apiKey = CONFIG.OPENAI_API_KEY;
+    if (!apiKey || apiKey === "YOUR_OPENAI_API_KEY_HERE") {
       return null;
     }
     openaiClient = new OpenAI({
       apiKey: apiKey,
-      baseURL: process.env.OPENAI_BASE_URL || "https://api.openai-next.com/v1",
+      baseURL: CONFIG.OPENAI_BASE_URL,
     });
   }
   return openaiClient;
@@ -47,7 +57,7 @@ async function startServer() {
       const client = getOpenAIClient();
       if (client) {
         try {
-          const model = process.env.OPENAI_MODEL || "gpt-4";
+          const model = CONFIG.OPENAI_MODEL;
           const systemPrompt = `You are an expert IELTS Examiner and Academic Trainer. Take a piece of spoken baseline transcript (which might have weak grammar, basic lexicon, or simple phrasing), and reconstruct or 'Remix' it into a highly polished, band ${targetBand} model speaking sample.
 
 Provide responses in strict JSON format. IMPORTANT: Only output a valid JSON object. Do not include markdown formatting or backticks around the JSON. Match the following schema exactly:
@@ -145,7 +155,7 @@ Target Band: ${targetBand}`;
       const client = getOpenAIClient();
       if (client) {
         try {
-          const model = process.env.OPENAI_MODEL || "gpt-4";
+          const model = CONFIG.OPENAI_MODEL;
           
           // Format previous chat messages for real-time memory
           const apiMessages = (messages || []).map((msg: any) => ({
